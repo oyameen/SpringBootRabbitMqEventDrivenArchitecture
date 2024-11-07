@@ -25,6 +25,6 @@ WORKDIR /application
 COPY --from=build /app/target/OrderService-1.0.0.jar output/app.jar
 COPY --from=build /app/src/main/resources/application.properties config/
 
-EXPOSE 9089
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "/application/output/app.jar"]

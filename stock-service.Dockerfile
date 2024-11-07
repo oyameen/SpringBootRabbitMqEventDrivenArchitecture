@@ -25,6 +25,6 @@ WORKDIR /application
 COPY --from=build /app/target/StockService-1.0.0.jar output/app.jar
 COPY --from=build /app/src/main/resources/application.properties config/
 
-EXPOSE 9086
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "output/app.jar"]
