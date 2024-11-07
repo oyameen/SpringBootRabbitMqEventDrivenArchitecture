@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  order-service:
+    build:
+      context: .
+      dockerfile: order-service.Dockerfile
+    restart: always
+    container_name: SpringBootRabbitMqEventDrivenArchitecture-OrderService
+    ports:
+      - ${ORDER_APP_PORT}:9089
+    env_file:
+      - ./.env
+    depends_on:
+      - rabbitmq
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+  sms-service:
+    build:
+      context: .
+      dockerfile: sms-service.Dockerfile
+    restart: always
+    container_name: SpringBootRabbitMqEventDrivenArchitecture-SMSService
+    ports:
+      - ${SMS_APP_PORT}:9087
+    env_file:
+      - ./.env
+    depends_on:
+      - rabbitmq
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+  stock-service:
+    build:
+      context: .
+      dockerfile: stock-service.Dockerfile
+    restart: always
+    container_name: SpringBootRabbitMqEventDrivenArchitecture-StockService
+    ports:
+      - ${STOCK_APP_PORT}:9086
+    env_file:
+      - ./.env
+    depends_on:
+      - rabbitmq
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+  email-service:
+    build:
+      context: .
+      dockerfile: email-service.Dockerfile
+    restart: always
+    container_name: SpringBootRabbitMqEventDrivenArchitecture-EmailService
+    ports:
+      - ${EMAIL_APP_PORT}:9088
+    env_file:
+      - ./.env
+    depends_on:
+      - rabbitmq
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+  rabbitmq:
+    image: rabbitmq:management
+    restart: always
+    container_name: SpringBootRabbitMqEventDrivenArchitecture-RabbitMQ
+    ports:
+      - ${RABBITMQ_PORT}:5672
+      - ${RABBITMQ_MGT_PORT}:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
